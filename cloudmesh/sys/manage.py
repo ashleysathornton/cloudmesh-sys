@@ -37,7 +37,7 @@ class Command(object):
         os.system("rm -rf  cloudmesh.gregor")
         # noinspection PyUnusedLocal,PyBroadException
         try:
-            os.system("git clone https://github.com/cloudmesh/cloudmesh.bar")
+            os.system("git clone https://github.com/cloudmesh/cloudmesh-bar")
         except Exception as e:
             pass
 
@@ -60,11 +60,14 @@ class Git(object):
     Git management for the preparation to upload the code to pypi
     """
 
-    pypis = ["cloudmesh.common",
-             "cloudmesh.cmd5",
-             "cloudmesh.sys",
-             "cloudmesh.comet"]
-    commits = pypis + ["cloudmesh.bar", "cloudmesh.rest", "cloudmesh.robot"]
+    pypis = ["cloudmesh-common",
+             "cloudmesh-cmd5",
+             "cloudmesh-sys",
+             "cloudmesh-comet",
+             "cloudmesh-openapi"]
+    commits = pypis + ["cloudmesh-bar"]
+    # , "cloudmesh-rest"]
+    # "cloudmesh-robot"]
 
     @classmethod
     def upload(cls):
@@ -82,7 +85,7 @@ class Git(object):
                 print(e)
 
         banner("UPLOAD TO PYPI")
-        for p in ["cloudmesh.common", "cloudmesh.cmd5", "cloudmesh.sys", "cloudmesh.comet"]:  # , "cloudmesh.rest"]:
+        for p in cls.pypis:
             try:
                 os.system("cd {}; make upload".format(p))
             except Exception as e:

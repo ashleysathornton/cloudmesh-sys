@@ -40,9 +40,9 @@ class SysCommand(PluginCommand):
             cms sys command generate my
                 This requires that you have checked out 
                 
-                ./cloudmesh.common
-                ./cloudmesh.cmd5
-                ./cloudmesh.sys
+                ./cloudmesh-common
+                ./cloudmesh-cmd5
+                ./cloudmesh-sys
                 
                 When you execute in . this command
                 will generate a sample directory tree for

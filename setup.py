@@ -27,7 +27,8 @@ def readfile(filename):
 
 # requiers = readfile ('requirements.txt')
 requiers = """
-cloudmesh.common
+cloudmesh-common
+cloudmesh-cmd5
 wheel
 twine
 """.split("\n")
@@ -39,11 +40,11 @@ version = readfile("VERSION")[0].strip()
 with open('README.md') as f:
     long_description = f.read()
 
-NAME = "cloudmesh.sys"
+NAME = "cloudmesh-sys"
 DESCRIPTION = "A command called sys for the cloudmesh shell"
 AUTHOR = "Gregor von Laszewski"
 AUTHOR_EMAIL = "laszewski@gmail.com"
-URL = "https://github.com/cloudmesh/cloudmesh.sys"
+URL = "https://github.com/cloudmesh/cloudmesh-sys"
 
 
 setup(
