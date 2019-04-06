@@ -27,8 +27,6 @@ def readfile(filename):
 
 # requiers = readfile ('requirements.txt')
 requiers = """
-cloudmesh-common
-cloudmesh-cmd5
 wheel
 twine
 """.split("\n")

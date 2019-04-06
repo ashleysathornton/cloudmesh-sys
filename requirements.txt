@@ -1,4 +1,2 @@
-cloudmesh.common
-cloudmesh.cmd5
 wheel
 twine
