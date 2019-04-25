@@ -28,21 +28,21 @@ class Command(object):
 
         data = {
             "command": name,
-            "package": "cloudmesh.{}".format(name),
+            "package": "cloudmesh-{}".format(name),
             "Command": name.capitalize()
         }
 
         pprint(data)
 
-        os.system("rm -rf  cloudmesh.gregor")
+        # os.system("rm -rf  cloudmesh-gregor")
         # noinspection PyUnusedLocal,PyBroadException
         try:
             os.system("git clone https://github.com/cloudmesh/cloudmesh-bar")
         except Exception as e:
             pass
 
-        os.system("cd cloudmesh.bar; make clean")
-        copy_tree("cloudmesh.bar", "{package}".format(**data))
+        os.system("cd cloudmesh-bar; make clean")
+        copy_tree("cloudmesh-bar", "{package}".format(**data))
         shutil.rmtree("{package}/.git".format(**data))
         os.system('sed -ie "s/bar/{command}/g" {package}/setup.py'.format(**data))
         os.rename("{package}/cloudmesh/bar/command/bar.py".format(**data),
@@ -53,7 +53,8 @@ class Command(object):
         os.system('sed -ie "s/bar/{command}/g" {package}/cloudmesh/{command}/command/{command}.py'.format(**data))
         os.system('sed -ie "s/Bar/{Command}/g" {package}/cloudmesh/{command}/command/{command}.py'.format(**data))
         os.system('sed -ie "s/bar/{command}/g" {package}/Makefile'.format(**data))        
-
+        os.system("rm -rf {package}/Makefilee")
+        os.system("rm -rf {package}/setup.pye")
 
 class Git(object):
     """
