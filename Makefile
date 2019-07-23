@@ -17,6 +17,11 @@ source:
 	$(call banner, "cms help sys")
 	cms help sys
 
+requirements:
+	pip-compile setup.py
+	fgrep -v "# via" requirements.txt > tmp.txt
+	mv tmp.txt requirements.txt
+
 clean:
 	$(call banner, "CLEAN")
 	rm -rf *.zip
