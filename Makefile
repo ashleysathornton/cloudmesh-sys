@@ -38,6 +38,8 @@ clean:
 	find . -name '*.pyc' -delete
 	rm -rf .tox
 	rm -f *.whl
+	rm .names.txt
+	rm names.txt
 
 ######################################################################
 # PYPI
