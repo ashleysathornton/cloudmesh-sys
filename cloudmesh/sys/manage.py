@@ -11,7 +11,8 @@ from pprint import pprint
 from cloudmesh.common.util import banner
 from cloudmesh.common.util import writefile
 from cloudmesh.common.console import Console
-
+import sys
+from cloudmesh.common.Shell import Shell
 
 class Command(object):
     """
@@ -37,11 +38,42 @@ class Command(object):
         # os.system("rm -rf  cloudmesh-gregor")
         # noinspection PyUnusedLocal,PyBroadException
         try:
+            shutil.rmtree("cloudmesh-bar".format(**data))
+        except:
+            pass
+        try:
             os.system("git clone https://github.com/cloudmesh/cloudmesh-bar")
         except Exception as e:
             pass
 
-        os.system("cd cloudmesh-bar; make clean")
+
+        if os.path.isdir("{package}/cloudmesh/{command}".format(**data)):
+            Console.error('The command directory "{package}/cloudmesh/{command}" already exists'.format(**data))
+            return ""
+
+        #
+        # os.system("cd cloudmesh-bar; make clean")
+        #
+        clean = """
+        rm -rf cloudmesh-bar/*.zip
+        rm -rf cloudmesh-bar/*.egg-info
+        rm -rf cloudmesh-bar/*.eggs
+        rm -rf cloudmesh-bar/docs/build
+        rm -rf cloudmesh-bar/build
+        rm -rf cloudmesh-bar/dist
+        find cloudmesh-bar -type d -name __pycache__ -delete
+        find cloudmesh-bar -name '*.pyc' -delete
+        find cloudmesh-bar -name '*.pye' -delete
+        rm -rf cloudmesh-bar/.tox
+        rm -f cloudmesh-bar/*.whl
+        """
+        for line in clean.splitlines():
+            try:
+                r = os.system(line.strip())
+            except:
+                pass
+            print (line.strip())
+
         copy_tree("cloudmesh-bar", "{package}".format(**data))
         shutil.rmtree("{package}/.git".format(**data))
         os.system('sed -ie "s/bar/{command}/g" {package}/setup.py'.format(**data))
@@ -49,12 +81,15 @@ class Command(object):
                   "{package}/cloudmesh/bar/command/{command}.py".format(**data))
         os.rename("{package}/cloudmesh/bar".format(**data),
                   "{package}/cloudmesh/{command}".format(**data))
+
         shutil.rmtree('{package}/cloudmesh/foo'.format(**data))
         os.system('sed -ie "s/bar/{command}/g" {package}/cloudmesh/{command}/command/{command}.py'.format(**data))
         os.system('sed -ie "s/Bar/{Command}/g" {package}/cloudmesh/{command}/command/{command}.py'.format(**data))
         os.system('sed -ie "s/bar/{command}/g" {package}/Makefile'.format(**data))        
-        os.system("rm -rf {package}/Makefilee")
-        os.system("rm -rf {package}/setup.pye")
+        os.system("rm -rf {package}/Makefilee".format(**data))
+        os.system("rm -f {package}/setup.pye".format(**data))
+
+        shutil.rmtree("cloudmesh-bar".format(**data))
 
 class Git(object):
     """
