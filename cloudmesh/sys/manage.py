@@ -100,18 +100,13 @@ class Command(object):
         #         pass
         #     print (line.strip())
 
+        path = Path("cloudmesh-bar/.git".format(**data)).resolve()
+        Shell.rmdir(path)
+
         copy_tree("cloudmesh-bar", "{package}".format(**data))
 
-
-        if platform.system() == "Windows":
-
-            path = Path("{package}/.git".format(**data)).resolve()
-
-            #os.chmod(path,
-            #         stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO)
-            os.chmod(path, 0o777)
-
-        shutil.rmtree("{package}/.git".format(**data))
+        path = Path("{package}/.git".format(**data)).resolve()
+        Shell.rmdir(path)
 
         replace_in_file("{package}/setup.py".format(**data),
                         "bar",
