@@ -104,8 +104,12 @@ class Command(object):
 
 
         if platform.system() == "Windows":
-            os.chmod("{package}/.git".format(**data),
-                     stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO)
+
+            path = Path("{package}/.git".format(**data)).resolve()
+
+            #os.chmod(path,
+            #         stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO)
+            os.chmod(path, 0o777)
 
         shutil.rmtree("{package}/.git".format(**data))
 
