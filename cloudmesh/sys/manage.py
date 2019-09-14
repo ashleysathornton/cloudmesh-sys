@@ -15,6 +15,8 @@ from cloudmesh.common.console import Console
 import sys
 from cloudmesh.common.Shell import Shell
 from pathlib import Path
+import platform
+import stat
 
 class Command(object):
     """
@@ -61,7 +63,7 @@ class Command(object):
         def delete(path, pattern):
             files = Path(path).glob(pattern)
             for file in files:
-                p.unlink()
+                file.unlink()
 
         for pattern in ["*.zip",
                         "*.egg-info",
@@ -99,6 +101,12 @@ class Command(object):
         #     print (line.strip())
 
         copy_tree("cloudmesh-bar", "{package}".format(**data))
+
+
+        if platform.system() == "Windows":
+            os.chmod("{package}/.git".format(**data),
+                     stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO)
+
         shutil.rmtree("{package}/.git".format(**data))
 
         replace_in_file("{package}/setup.py".format(**data),
