@@ -7,7 +7,10 @@ from cloudmesh.shell.command import PluginCommand
 from cloudmesh.shell.command import command
 
 from cloudmesh.sys.manage import Command, Git, Version
-
+import shutil
+import glob
+from cloudmesh.common.util import path_expand
+import os
 
 class SysCommand(PluginCommand):
     """
@@ -23,7 +26,7 @@ class SysCommand(PluginCommand):
           Usage:
             sys upload
             sys commit MESSAGE
-            sys command generate NAME
+            sys command generate NAME [.]
             sys version VERSION
 
           This command does some useful things.
@@ -37,26 +40,31 @@ class SysCommand(PluginCommand):
             -f      specify the file
 
           Description:      
-            cms sys command generate my
-                This requires that you have checked out 
+            cms sys command generate NAME
+
                 
-                ./cloudmesh-common
-                ./cloudmesh-cmd5
-                ./cloudmesh-sys
-                
-                When you execute in . this command
-                will generate a sample directory tree for
-                the command 'my'.
-                
-                You can than modify 
-              
-                cloudmesh.my/cloudmesh/my/command/my.py
-                
-                to define your own cmd5 add on commands.
-                You install the command with 
-                
-                cd cloudmesh.my; pip install .
-                
+                When you execute this command it
+                will generate a  directory tree for a command
+                with the name
+
+                cloudmesh-NAME
+
+                To install the command you need to
+
+                cd cloudmesh-NAME
+                pip install -e .
+
+                or
+
+                pip install .
+
+            cms sys command generate NAME .
+
+                the code will be installed in the current directory. This is
+                helpful, if you already are in adirectory fof the name
+                cloudmesh-NAME, e.g. if you already created it in github and
+                like to add a command in that github directory.
+
             The commands 'version', 'commit' and 'upload'
             are only to be used by Gregor.        
     
@@ -74,7 +82,9 @@ class SysCommand(PluginCommand):
 
             
         """
-        # print(arguments)
+        print(arguments)
+
+        dot = arguments["."]
 
         if arguments.commit:
 
@@ -85,12 +95,36 @@ class SysCommand(PluginCommand):
 
             Git.upload()
 
+        elif arguments.readme and arguments.generate:
+
+            name = arguments.NAME
+            Command.generate(name)
+
         elif arguments.command and arguments.generate:
 
             name = arguments.NAME
             Command.generate(name)
 
+            if dot:
+                for file in ["LICENSE",
+                             ".bumpversion.cfg",
+                             ".gitignore",
+                             "requirements.txt",
+                             "Makefile"]:
+                    try:
+                        os.remove(file)
+                    except:
+                        pass
+
+                for entry in glob.glob("cloudmesh-{name}/**".format(name=name)):
+                    shutil.move(entry, path_expand("."))
+                for entry in glob.glob("cloudmesh-{name}/.*".format(name=name)):
+                    shutil.move(entry, path_expand("."))
+                shutil.rmtree("cloudmesh-{name}".format(name=name))
+
+
         elif arguments.version:
 
             version = arguments.VERSION
             Version.set(version)
+

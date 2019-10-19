@@ -119,6 +119,7 @@ class Command(object):
                   "{package}/cloudmesh/{command}".format(**data))
 
         shutil.rmtree('{package}/cloudmesh/foo'.format(**data))
+        shutil.rmtree('{package}/cloudmesh/plugin'.format(**data))
 
         replace_in_file("{package}/cloudmesh/{command}/command/{command}.py".format(**data),
                         "Bar",
