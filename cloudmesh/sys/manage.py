@@ -6,17 +6,15 @@ from __future__ import print_function
 import os
 import shutil
 from distutils.dir_util import copy_tree
+from pathlib import Path
 from pprint import pprint
 
-from cloudmesh.common.util import readfile, writefile
-from cloudmesh.common.util import banner
-from cloudmesh.common.util import writefile
-from cloudmesh.common.console import Console
-import sys
 from cloudmesh.common.Shell import Shell
-from pathlib import Path
-import platform
-import stat
+from cloudmesh.common.console import Console
+from cloudmesh.common.util import banner
+from cloudmesh.common.util import readfile
+from cloudmesh.common.util import writefile
+
 
 class Command(object):
     """
@@ -50,9 +48,11 @@ class Command(object):
         except Exception as e:
             pass
 
-
         if os.path.isdir("{package}/cloudmesh/{command}".format(**data)):
-            Console.error('The command directory "{package}/cloudmesh/{command}" already exists'.format(**data))
+            # noinspection PyPep8
+            Console.error(
+                'The command directory "{package}/cloudmesh/{command}" already exists'.format(
+                    **data))
             return ""
 
         def replace_in_file(filename, old_text, new_text):
@@ -110,8 +110,7 @@ class Command(object):
 
         replace_in_file("{package}/setup.py".format(**data),
                         "bar",
-                        "{command}".format(**data) )
-
+                        "{command}".format(**data))
 
         os.rename("{package}/cloudmesh/bar/command/bar.py".format(**data),
                   "{package}/cloudmesh/bar/command/{command}.py".format(**data))
@@ -121,22 +120,25 @@ class Command(object):
         shutil.rmtree('{package}/cloudmesh/foo'.format(**data))
         shutil.rmtree('{package}/cloudmesh/plugin'.format(**data))
 
-        replace_in_file("{package}/cloudmesh/{command}/command/{command}.py".format(**data),
-                        "Bar",
-                        "{Command}".format(**data))
+        replace_in_file(
+            "{package}/cloudmesh/{command}/command/{command}.py".format(**data),
+            "Bar",
+            "{Command}".format(**data))
 
-        replace_in_file("{package}/cloudmesh/{command}/command/{command}.py".format(**data),
-                        "bar",
-                        "{command}".format(**data))
+        replace_in_file(
+            "{package}/cloudmesh/{command}/command/{command}.py".format(**data),
+            "bar",
+            "{command}".format(**data))
 
         replace_in_file("{package}/Makefile".format(**data),
                         "bar",
-                        "{command}".format(**data) )
+                        "{command}".format(**data))
 
         delete("{package}".format(**data), "Makefilee")
         delete("{package}".format(**data), "setup.pye")
 
         shutil.rmtree("cloudmesh-bar")
+
 
 class Git(object):
     """
@@ -149,6 +151,7 @@ class Git(object):
              "cloudmesh-comet",
              "cloudmesh-openapi"]
     commits = pypis + ["cloudmesh-bar"]
+
     # , "cloudmesh-rest"]
     # "cloudmesh-robot"]
 

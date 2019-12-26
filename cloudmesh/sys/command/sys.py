@@ -12,6 +12,7 @@ import glob
 from cloudmesh.common.util import path_expand
 import os
 
+
 class SysCommand(PluginCommand):
     """
     The system command
@@ -61,7 +62,7 @@ class SysCommand(PluginCommand):
             cms sys command generate NAME .
 
                 the code will be installed in the current directory. This is
-                helpful, if you already are in adirectory fof the name
+                helpful, if you already are in a directory fof the name
                 cloudmesh-NAME, e.g. if you already created it in github and
                 like to add a command in that github directory.
 
@@ -122,9 +123,7 @@ class SysCommand(PluginCommand):
                     shutil.move(entry, path_expand("."))
                 shutil.rmtree("cloudmesh-{name}".format(name=name))
 
-
         elif arguments.version:
 
             version = arguments.VERSION
             Version.set(version)
-
