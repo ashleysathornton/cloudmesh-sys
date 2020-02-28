@@ -31,7 +31,7 @@ wheel
 twine
 cloudmesh-common
 cloudmesh-cmd5
-""".split("\n")
+""".splitlines()
 
 # dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
 
