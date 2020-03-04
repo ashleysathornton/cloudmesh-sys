@@ -6,7 +6,6 @@ cloudmesh-cmd5
 #
 #    pip-compile setup.py
 #
-twine==1.13.0
-wheel==0.33.4
 
 # The following packages are considered to be unsafe in a requirements file:
+# setuptools
