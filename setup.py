@@ -16,6 +16,7 @@
 # ------------------------------------------------------------------------#
 
 import io
+import os
 
 from setuptools import find_packages, setup
 
@@ -25,15 +26,17 @@ def readfile(filename):
         return stream.read().split()
 
 
-# requiers = readfile ('requirements.txt')
 requiers = """
-wheel
-twine
+psutil
+""".splitlines()
+
+requiers_cloudmesh = """
 cloudmesh-common
 cloudmesh-cmd5
 """.splitlines()
 
-# dependency_links = ['http://github.com/nicolaiarocci/eve.git@develop']
+if  "PRODUCTION" not in os.environ:
+    requiers = requiers + requiers_cloudmesh
 
 version = readfile("VERSION")[0].strip()
 
